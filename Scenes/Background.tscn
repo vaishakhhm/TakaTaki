@@ -24,9 +24,9 @@ position = Vector2( 640, 360 )
 scale = Vector2( 0.547009, 0.666667 )
 shape = SubResource( 1 )
 
-[node name="CardBottom_1" parent="Area2D" instance=ExtResource( 3 )]
-position = Vector2( 1081.61, 704.927 )
+[node name="CardBottom" parent="Area2D" instance=ExtResource( 3 )]
+position = Vector2( 1073.61, 702.927 )
 script = ExtResource( 4 )
 
-[node name="CardTop_1" parent="Area2D" instance=ExtResource( 3 )]
+[node name="CardTop" parent="Area2D" instance=ExtResource( 3 )]
 position = Vector2( 219.559, 6.39899 )
