@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-const MAX_SPEED = 5
+const MAX_SPEED = 2
 const ACCELERATION = 10
 const FRICTION = 10
 
@@ -15,7 +15,11 @@ var flip_final_point_top = Vector2.ZERO
 
 var is_on_top = false;
 
+var animationPlayer = null
+
 func _ready():
+	
+	animationPlayer = get_node("AnimationPlayer")
 	centerx =  get_viewport_rect().size.x
 	centery = get_viewport_rect().size.y
 	
@@ -26,6 +30,7 @@ func _ready():
 	flip_final_point_top = Vector2(centerx - 350, centery - 200)
 	
 	is_on_top = _check_is_card_on_top()
+
 	set_physics_process(false)
 	pass
 
@@ -49,6 +54,12 @@ func _on_Card_input_event(viewport, event, shape_idx):
 	if (event is InputEventMouseButton):
 		if(Input.is_mouse_button_pressed(BUTTON_LEFT)):
 			card_click = true
+			animationPlayer.play("FlipAnimation")
+			var bgNode = get_node("/root/Background/Area2D/Sprite")
+			#if(!is_on_top):
+				#bgNode._create_bottom_card()
+			#else:
+				#bgNode._create_top_card()
 			set_physics_process(true)
 			
 

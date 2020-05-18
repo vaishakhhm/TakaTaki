@@ -11,9 +11,8 @@ func _ready():
 	print("ViewportRect size:", get_viewport_rect().size)
 		
 	var has_created = false;
-	for i in range(1):
-		has_created = _create_top_card()
-		has_created = _create_bottom_card()
+	has_created = _create_top_card()
+	has_created = _create_bottom_card()
 	
 	if(!has_created):
 		print("Failed to create top/bottom cards")
@@ -27,6 +26,9 @@ func _ready():
 func _process(delta):
 	pass
 
+func TestMethod():
+	print("This is a test method.")
+	pass
 
 func _create_bottom_card():
 	_new_card = preload("res://Scenes/Card.tscn").instance()
