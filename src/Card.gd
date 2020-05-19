@@ -53,13 +53,17 @@ func _check_is_card_on_top():
 func _on_Card_input_event(viewport, event, shape_idx):
 	if (event is InputEventMouseButton):
 		if(Input.is_mouse_button_pressed(BUTTON_LEFT)):
+			
+			if(!card_click):
+				animationPlayer.play("FlipAnimation")
+			
 			card_click = true
-			animationPlayer.play("FlipAnimation")
-			var bgNode = get_node("/root/Background/Area2D/Sprite")
-			#if(!is_on_top):
-				#bgNode._create_bottom_card()
-			#else:
-				#bgNode._create_top_card()
+			
+			var bgNode = get_node("/root/Background/")
+			if(!is_on_top):
+				bgNode._create_bottom_card()
+			else:
+				bgNode._create_top_card()
 			set_physics_process(true)
 			
 
