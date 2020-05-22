@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Asset/Elemental_Cards/Fire/10/spritesheet.png" type="Texture" id=1]
+[ext_resource path="res://Asset/Elemental_Cards/Fire/10/Sprite sheet.png" type="Texture" id=1]
 [ext_resource path="res://src/Card.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 76.9773, 107.703 )
+extents = Vector2( 112, 144 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "FlipAnimation"
@@ -35,7 +35,6 @@ tracks/0/keys = {
 }
 
 [node name="Card" type="KinematicBody2D"]
-scale = Vector2( 1.7, 1.5 )
 input_pickable = true
 script = ExtResource( 2 )
 __meta__ = {
@@ -45,8 +44,8 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 0.3, 0.3 )
 texture = ExtResource( 1 )
-vframes = 6
-hframes = 6
+vframes = 2
+hframes = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
