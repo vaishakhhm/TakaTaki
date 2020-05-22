@@ -13,6 +13,8 @@ var centery = Vector2.ZERO
 var flip_final_point_bottom = Vector2.ZERO 
 var flip_final_point_top = Vector2.ZERO 
 
+
+
 var is_on_top = false;
 
 var animationPlayer = null
@@ -60,10 +62,11 @@ func _on_Card_input_event(viewport, event, shape_idx):
 			card_click = true
 			
 			var bgNode = get_node("/root/Background/")
-			if(!is_on_top):
-				bgNode._create_bottom_card()
+			get_node("CollisionShape2D").disabled = true
+			if(is_on_top):
+				bgNode._create_top_card(false)
 			else:
-				bgNode._create_top_card()
+				bgNode._create_bottom_card(false)
 			set_physics_process(true)
 			
 
