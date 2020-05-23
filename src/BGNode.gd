@@ -11,12 +11,15 @@ var total_bottom_cards = 4
 var old_total_top_cards = total_top_cards
 var old_total_bottom_cards = total_bottom_cards
 
+var radialProgress = null
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#get_tree().get_root().connect("size_changed", self, "myfunc")
 	
 	topPlayerCards = $Area2D/TopPlayerCards
 	bottomPlayerCards = $Area2D/BottomPlayerCards
+	radialProgress = get_node("Area2D/TextureProgress")
 	
 	topPlayerCards.text = "Cards left: " + String(total_top_cards)
 	bottomPlayerCards.text = "Cards left: " + String(total_bottom_cards)
@@ -49,6 +52,9 @@ func _process(delta):
 		bottomPlayerCards.text = "Cards left: " + String(total_bottom_cards)
 		old_total_bottom_cards = total_bottom_cards
 		
+	radialProgress.set_fill_mode(4)
+	for i in range(100):
+			radialProgress.value += 1
 	pass
 
 func TestMethod():
@@ -61,6 +67,7 @@ func _create_bottom_card(var initialCard):
 		var pos = Vector2(1950,1120)
 		_new_card.set_position(pos)
 		get_node("Area2D/Sprite").add_child(_new_card)
+	
 	if (!initialCard):
 		total_bottom_cards -= 1
 		return true
