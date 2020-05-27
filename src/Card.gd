@@ -13,9 +13,19 @@ var centery = Vector2.ZERO
 var flip_final_point_bottom = Vector2.ZERO 
 var flip_final_point_top = Vector2.ZERO 
 
+var sprite_node = null
+
 var is_on_top = false;
 
+var isAnimationDone = false;
+
 var animationPlayer = null
+
+onready var bgNode = get_node("/root/Background/")
+
+func _init():
+	sprite_node = get_node("Sprite")
+	pass
 
 func _ready():
 	
@@ -23,8 +33,10 @@ func _ready():
 	centerx =  get_viewport_rect().size.x
 	centery = get_viewport_rect().size.y
 	
-	print("Centerx:", centerx)
-	print("Centery:", centery)
+#	sprite_node.set_texture(fire1)
+	
+#	print("Centerx:", centerx)
+#	print("Centery:", centery)
 	
 	flip_final_point_bottom = Vector2(centerx + 200, centery - 200)
 	flip_final_point_top = Vector2(centerx - 350, centery - 200)
@@ -40,11 +52,18 @@ func _process(delta):
 
 func _physics_process(delta):
 	var movement_vector = move_the_card(delta)
+	var x = round(self.position.x)
+	var y = round(self.position.y)
+#	if(is_on_top):
+#		if(x == flip_final_point_top.x and y == flip_final_point_top.y):
+#			isAnimationDone = true
+#	else:
+#		if(x == flip_final_point_bottom.x and y == flip_final_point_bottom.y):
+#			isAnimationDone = true
 	
 
 func _check_is_card_on_top():
 	var view_size = get_viewport().get_size()
-	print(self.position)
 	if(self.position.y <= 0):
 		return true
 	else:
@@ -59,11 +78,11 @@ func _on_Card_input_event(viewport, event, shape_idx):
 			
 			card_click = true
 			
-			var bgNode = get_node("/root/Background/")
-			if(!is_on_top):
-				bgNode._create_bottom_card()
+			get_node("CollisionShape2D").disabled = true
+			if(is_on_top):
+				bgNode._create_top_card(false)
 			else:
-				bgNode._create_top_card()
+				bgNode._create_bottom_card(false)
 			set_physics_process(true)
 			
 
@@ -91,7 +110,7 @@ func move_the_card(var delta):
 #	else:
 #		distance = flip_final_point - transform.get_origin()
 	
-	move_and_slide(distance * MAX_SPEED)
+	return move_and_slide(distance * MAX_SPEED)
 	
 func slide_up():
 	var distance
@@ -113,3 +132,11 @@ func slide_down():
 
 	move_and_slide(distance * MAX_SPEED)
 	return 
+
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	if(anim_name.match("FlipAnimation")):
+		isAnimationDone = true
+		bgNode.AddNodeForMatching(self)
+		bgNode.checkForMatchingNodes()
+		
