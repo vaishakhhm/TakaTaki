@@ -17,33 +17,35 @@ var old_total_bottom_cards = total_bottom_cards
 
 var radialProgress = null
 
-const _1 = "res://Asset/Elemental_Cards/Fire/1/Fire_flip_1_compressed.png"
-const _2 = "res://Asset/Elemental_Cards/Fire/2/Fire_flip_2_compressed.png"
-const _3 = "res://Asset/Elemental_Cards/Fire/3/Fire_flip_3_compressed.png"
-const _4 = "res://Asset/Elemental_Cards/Fire/4/Fire_flip_4_compressed.png"
-const _5 = "res://Asset/Elemental_Cards/Fire/5/Fire_flip_5_compressed.png"
-const _6 = "res://Asset/Elemental_Cards/Fire/6/Fire_flip_6_compressed.png"
-const _7 = "res://Asset/Elemental_Cards/Fire/7/Fire_flip_7_compressed.png"
-const _8 = "res://Asset/Elemental_Cards/Fire/8/Fire_flip_8_compressed.png"
-const _9 = "res://Asset/Elemental_Cards/Fire/9/Fire_flip_9_compressed.png"
-const _10 = "res://Asset/Elemental_Cards/Fire/10/Fire_flip_10_compressed.png"
+const _1 = "res://Asset/Elemental_Cards/Fire/1.png"
+const _2 = "res://Asset/Elemental_Cards/Fire/2.png"
+const _3 = "res://Asset/Elemental_Cards/Fire/3.png"
+const _4 = "res://Asset/Elemental_Cards/Fire/4.png"
+const _5 = "res://Asset/Elemental_Cards/Fire/5.png"
+const _6 = "res://Asset/Elemental_Cards/Fire/6.png"
+const _7 = "res://Asset/Elemental_Cards/Fire/7.png"
+const _8 = "res://Asset/Elemental_Cards/Fire/8.png"
+const _9 = "res://Asset/Elemental_Cards/Fire/9.png"
+const _10 = "res://Asset/Elemental_Cards/Fire/10.png"
 
-const _11 = "res://Asset/Elemental_Cards/Earth/1/Earth_flip_1_compressed.png"
-const _12 = "res://Asset/Elemental_Cards/Earth/2/Earth_flip_2_compressed.png"
-const _13 = "res://Asset/Elemental_Cards/Earth/3/Earth_flip_3_compressed.png"
-const _14 = "res://Asset/Elemental_Cards/Earth/4/Earth_flip_4_compressed.png"
-const _15 = "res://Asset/Elemental_Cards/Earth/5/Earth_flip_5_compressed.png"
-const _16 = "res://Asset/Elemental_Cards/Earth/6/Earth_flip_6_compressed.png"
-const _17 = "res://Asset/Elemental_Cards/Earth/7/Earth_flip_7_compressed.png"
-const _18 = "res://Asset/Elemental_Cards/Earth/8/Earth_flip_8_compressed.png"
-const _19 = "res://Asset/Elemental_Cards/Earth/9/Earth_flip_9_compressed.png"
-const _20 = "res://Asset/Elemental_Cards/Earth/10/Earth_flip_10_compressed.png"
+const _11 = "res://Asset/Elemental_Cards/Earth/1.png"
+const _12 = "res://Asset/Elemental_Cards/Earth/2.png"
+const _13 = "res://Asset/Elemental_Cards/Earth/3.png"
+const _14 = "res://Asset/Elemental_Cards/Earth/4.png"
+const _15 = "res://Asset/Elemental_Cards/Earth/5.png"
+const _16 = "res://Asset/Elemental_Cards/Earth/6.png"
+const _17 = "res://Asset/Elemental_Cards/Earth/7.png"
+const _18 = "res://Asset/Elemental_Cards/Earth/8.png"
+const _19 = "res://Asset/Elemental_Cards/Earth/9.png"
+const _20 = "res://Asset/Elemental_Cards/Earth/10.png"
 
 var top_deck_array = [_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20 ]
 var bottom_deck_array = [_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20 ]
 
 var drawCardArray = Array()
 var nodeArray = Array()
+
+var sparkleNode = preload("res://Scenes/Effects.tscn").instance()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -145,17 +147,34 @@ func findNextTopRandomCard():
 
 func checkForMatchingNodes():
 	var hasMatched = false;
-	
+	var regex = RegEx.new()
+	regex.compile("[0-9]+")
 	if(drawCardArray.size() >= 2):
 		var lastCard = drawCardArray[-1]
 		var slCard = drawCardArray[-2]
-		print ("Comparing Nodes: ", lastCard, " and " , slCard)
+		lastCard = regex.search(lastCard)
+		slCard = regex.search(slCard)
 		
-		if(lastCard.match(slCard)):
+		print ("Comparing Nodes: ", lastCard.get_string(), " and " , slCard.get_string())
+		
+		var firstNumber = lastCard.get_string()
+		var secondNumber = slCard.get_string()
+		
+		
+		if(firstNumber == secondNumber):
+			playMatchingAnimation()
 			print("Card matches")
+			
 	return hasMatched
 
 
 func AddNodeForMatching(var cardNode):
 	#print("Added node: ", cardNode.sprite_node.texture.resource_path)
 	drawCardArray.push_back(cardNode.sprite_node.texture.resource_path)
+
+func playMatchingAnimation():
+	var pos = Vector2((get_viewport_rect().size.x / 2) + 400, get_viewport_rect().size.y / 2)
+	sparkleNode.set_position(pos)
+	var animPlayer = sparkleNode.get_node("AnimationPlayer")
+	get_node("Area2D/Sprite").add_child(sparkleNode)
+	animPlayer.play("SparkleAnimation")

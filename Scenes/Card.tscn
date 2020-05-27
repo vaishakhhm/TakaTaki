@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/Card.gd" type="Script" id=1]
-[ext_resource path="res://Asset/Elemental_Cards/Fire/10/spritesheet.png" type="Texture" id=2]
+[ext_resource path="res://Asset/Elemental_Cards/Fire/1.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 168, 200 )
+extents = Vector2( 112, 144 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "FlipAnimation"
